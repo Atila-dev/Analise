@@ -1,81 +1,99 @@
-# Aula 07 - Programação Avançada e Otimização
+# 🚦 Aula 07 - Programação Avançada e Otimização
 
-## Descrição da Prática
+## 📝 Descrição da Prática
 
-Esta aula explora técnicas avançadas de programação Arduino, incluindo o uso de `millis()` para temporização não-bloqueante, funções `map()` para mapeamento de valores, e implementação de interrupções para controle responsivo.
+Esta aula explora técnicas essenciais de programação Arduino para criar código mais eficiente e responsivo. Focamos no uso da função **`millis()`** para temporização **não-bloqueante**, na função **`map()`** para conversão de escalas, e na implementação de **interrupções** (`interrupt`) para garantir resposta imediata a eventos externos.
 
-### Práticas Desenvolvidas
+---
 
-#### Semáforo com millis() (Semaforo_millis.ino)
+## 🛠️ Práticas Desenvolvidas
 
-**Propósito:** Implementar um sistema de semáforo usando `millis()` em vez de `delay()` para permitir execução não-bloqueante.
+### 1. Semáforo com millis() (Semaforo_millis.ino)
 
-**Funcionalidades:**
-
-- Ciclo automático de semáforo com estados sequenciais
-- Uso de `millis()` para temporização precisa e não-bloqueante
-- Sistema de controle de pedestres com botão
-- LEDs RGB para indicação de estado adicional
-- Estados do semáforo: Verde → Vermelho → Amarelo (ciclo contínuo)
-- Ativação de sinal de pedestres por 2 segundos quando solicitado
-
-#### Controle Luminoso com Map (Map_controle_luminoso.ino)
-
-**Propósito:** Demonstrar o uso da função `map()` para controlar intensidade luminosa baseada em entrada analógica.
+**Desafio:** Reconstruir um semáforo utilizando `millis()` para controle de tempo, garantindo que o programa principal continue executando outras tarefas.
 
 **Funcionalidades:**
 
-- Leitura de sensor analógico (potenciômetro ou sensor de luz)
-- Mapeamento de valores usando `map()`
-- Controle PWM para ajuste de brilho de LEDs
-- Interface responsiva e proporcional
+* **Temporização Não-Bloqueante:** O ciclo do semáforo é controlado por `millis()`, eliminando o uso de `delay()`.
+* **Ciclo do Semáforo:** Estados sequenciais: **Verde** $\rightarrow$ **Amarelo** $\rightarrow$ **Vermelho** (usando 3 LEDs comuns).
+* **Controle de Pedestres:** Um botão aciona a mudança para o estado de pedestre (sinal **Vermelho**) por um tempo determinado.
+* **Indicação Adicional:** Uso de um **LED RGB** para fornecer *feedback* visual adicional (embora o Desafio 01 use 3 LEDs comuns para o semáforo e um LED RGB para estado adicional).
 
-#### Controle de LEDs com Interrupção (Controle_leds_interrupt.ino)
+| Material Principal | Quantidade |
+| :--- | :--- |
+| **LEDs Comuns** | 3 |
+| **LED RGB** | 1 |
+| **Botão** | 1 |
+| **Resistores** | 5 |
 
-**Propósito:** Implementar controle de LEDs usando interrupções para resposta imediata a eventos.
+---
+
+### 2. Controle de LEDs com Interrupt (Controle_leds_interrupt.ino)
+
+**Desafio:** Reutilizar a montagem anterior (semáforo) para controlar o estado dos LEDs utilizando uma interrupção externa.
 
 **Funcionalidades:**
 
-- Uso de interrupções externas (`attachInterrupt()`)
-- Resposta instantânea a eventos de botões
-- Controle não-bloqueante de LEDs
-- Tratamento de múltiplas interrupções
+* **Resposta Imediata:** Uso de **interrupções externas** (`attachInterrupt()`) para uma reação instantânea ao pressionar o botão.
+* **Função de Serviço de Interrupção (ISR):** Uma função dedicada é chamada automaticamente (`ISR`) quando o evento de interrupção ocorre.
+* **Modos de Acionamento:** Demonstração de um dos modos de acionamento (`LOW`, `CHANGE`, `RISING`, ou `FALLING`) para otimizar a detecção do botão.
+* **Controle Não-Bloqueante:** O *loop* principal não precisa ficar verificando o estado do botão.
+
+| Material Principal | Quantidade |
+| :--- | :--- |
+| **LEDs Comuns** | 3 |
+| **Botão** | 1 |
+| **Resistores** | 4 |
+
+---
+
+### 3. Controle Luminoso com Map (Map_controle_luminoso.ino)
+
+**Desafio:** Utilizar um potenciômetro para variar a intensidade luminosa de um LED, fazendo a conversão de escala com a função `map()`.
+
+**Funcionalidades:**
+
+* **Leitura Analógica:** Leitura de um potenciômetro (entrada de 0 a 1023).
+* **Mapeamento de Valores:** A função **`map()`** converte a faixa de 0-1023 para a faixa de saída **PWM** 0-255.
+* **Controle de Brilho:** Uso de `analogWrite()` para ajustar a intensidade dos LEDs de forma proporcional ao potenciômetro.
+* **Restrição de Valores:** Uso opcional da função `constrain()` para garantir que o valor mapeado permaneça dentro da faixa PWM.
+
+| Material Principal | Quantidade |
+| :--- | :--- |
+| **LEDs Comuns** | 3 |
+| **Potenciômetro** | 1 |
+| **Resistores** | 3 |
 
 ---
 
 ## 🔗 Link do Tinkercad
 
-**Acesse a simulação desta aula:** [Inserir link do Tinkercad aqui]
+**Acesse a simulação desta aula:** [https://www.tinkercad.com/things/3ShtZMeKzJ6-pratica-aula-botao-interrupt/editel?returnTo=%2Fdashboard%2Fcollections%2F8z5wGCutp8W%2Fcircuits]
 
 ---
 
-## Conceitos Aprendidos
+## 💡 Conceitos Aprendidos
 
-### Temporização Avançada:
+### Temporização Avançada (`millis()`):
 
-- Função `millis()` para temporização não-bloqueante
-- Diferença entre `delay()` e `millis()`
-- Implementação de múltiplos timers simultâneos
-- Evitar bloqueio do programa principal
+* **Função `millis()`:** Retorna o tempo decorrido em milissegundos desde o início do programa.
+* **Temporização Não-Bloqueante:** Permite a execução de múltiplas tarefas simultaneamente, ao contrário do **`delay()`**.
+* **Máquinas de Estado:** Implementação de lógica de controle que muda de estado baseada em tempo (`millis()`).
 
-### Mapeamento de Valores:
+### Interrupções (`interrupt`):
 
-- Função `map()` para conversão de escalas
-- Mapeamento de entradas analógicas (0-1023) para saídas PWM (0-255)
-- Calibração automática de sensores
-- Controle proporcional de dispositivos
+* **Conceito de Interrupção:** Um mecanismo que permite ao microcontrolador pausar o código principal para responder a um evento externo de forma **imediata**.
+* **`attachInterrupt()`:** Função para associar um pino digital e um modo de acionamento a uma **Rotina de Serviço de Interrupção (ISR)**.
+* **ISR (Interrupt Service Routine):** A função que é executada quando a interrupção é acionada. **Regra:** Deve ser o mais rápida possível (sem `delay()`).
+* **Modos de Acionamento:** `RISING`, `FALLING`, `CHANGE`, `LOW`.
 
-### Interrupções:
+### Mapeamento de Valores (`map`):
 
-- Conceito de interrupções externas
-- Função `attachInterrupt()` e `detachInterrupt()`
-- ISR (Interrupt Service Routine) - rotinas de interrupção
-- Modos de ativação: `RISING`, `FALLING`, `CHANGE`, `LOW`
-- Boas práticas em rotinas de interrupção (código rápido e sem delay)
+* **Função `map()`:** Converte um valor de um intervalo (`deMenor`, `deMaior`) para outro (`paraMenor`, `paraMaior`).
+* **Aplicações:** Mapeamento de entradas analógicas (0-1023) para saídas digitais PWM (0-255) ou qualquer outra conversão de escala necessária.
+* **Função `constrain()`:** Utilizada para limitar um valor dentro de uma faixa específica, garantindo que ele não exceda os limites desejados.
 
 ### Programação Otimizada:
 
-- Código não-bloqueante para múltiplas tarefas simultâneas
-- Máquinas de estado eficientes
-- Responsividade aprimorada em interfaces
-- Gerenciamento eficiente de recursos do microcontrolador
+* **Responsividade Aprimorada:** Código que reage rapidamente a eventos e temporização.
+* **Gerenciamento de Recursos:** Uso eficiente do tempo de processamento do microcontrolador.
