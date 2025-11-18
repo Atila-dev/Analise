@@ -1,12 +1,12 @@
-# 🚦 Aula 07 - Programação Avançada e Otimização
+# Aula 07 - Programação Avançada e Otimização
 
-## 📝 Descrição da Prática
+## Descrição da Prática
 
 Esta aula explora técnicas essenciais de programação Arduino para criar código mais eficiente e responsivo. Focamos no uso da função **`millis()`** para temporização **não-bloqueante**, na função **`map()`** para conversão de escalas, e na implementação de **interrupções** (`interrupt`) para garantir resposta imediata a eventos externos.
 
 ---
 
-## 🛠️ Práticas Desenvolvidas
+## Práticas Desenvolvidas
 
 ### 1. Semáforo com millis() (Semaforo_millis.ino)
 
@@ -72,7 +72,7 @@ Esta aula explora técnicas essenciais de programação Arduino para criar códi
 
 ---
 
-## 💡 Conceitos Aprendidos
+## Conceitos Aprendidos
 
 ### Temporização Avançada (`millis()`):
 
