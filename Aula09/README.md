@@ -31,12 +31,10 @@ Esta aula final integra e testa os conhecimentos adquiridos no curso, focando em
 | :--- | :--- |
 | **2 Motores DC** | Sistema de tração do robô. |
 | **Módulo Ponte H (Ex: L298N)** | Permite controlar a direção (inverter polaridade) dos motores DC. 
-
-[Image of L298N H-Bridge connection diagram]
- |
 | **Sensor Ultrassônico HC-SR04** | Fornece dados de distância para a navegação. |
 | **Arduino Uno** | Microcontrolador central para lógica de controle. |
 | **Baterias** | Alimentação do módulo e dos motores. |
+| **Estrutura do Carrinho** | Chassi mecânico, rodas e suportes para montar os componentes. |
 
 ---
 
