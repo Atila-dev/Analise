@@ -60,12 +60,6 @@ Esta aula final integra e testa os conhecimentos adquiridos no curso, focando em
 
 ---
 
-## 🔗 Link do Tinkercad
-
-**Acesse a simulação desta aula:** [Inserir link do Tinkercad aqui]
-
----
-
 ## Conceitos Integrados e Aprendidos
 
 ### Robótica Móvel e Manipulação:
