@@ -1,45 +1,51 @@
 # Aula 08 - Servo Motores e Sistemas de Radar
 
-## Descrição da Prática
+##  Descrição da Prática
 
-Esta aula introduz o controle de servo motores e sua integração com sensores ultrassônicos para criar sistemas de varredura e detecção, simulando um radar básico com alertas visuais e sonoros.
+Esta aula tem como foco o controle de motores, especificamente o **Servo Motor**, e sua integração com um **Sensor Ultrassônico (HC-SR04)** para criar um sistema de varredura e detecção. O projeto simula um **radar** básico, fornecendo alertas visuais e sonoros ao identificar obstáculos.
 
-### Práticas Desenvolvidas
+---
 
-#### Radar com Servo e HC-SR04 (Radar_servo_hcsr4.ino)
+## Práticas Desenvolvidas
 
-**Propósito:** Implementar um sistema de radar que varre 180° usando servo motor e detecta obstáculos com sensor ultrassônico.
+### Desafio Único: Radar com Servo e HC-SR04 (Radar_servo_hcsr4.ino)
+
+**Propósito:** Implementar um sistema de radar que varre uma área de 180° e localiza obstáculos, acionando um alarme sonoro e visual quando a ameaça é detectada.
 
 **Funcionalidades:**
 
-- **Varredura automatizada:** Servo motor gira de 5° a 175° e retorna
-- **Detecção de obstáculos:** Sensor ultrassônico identifica objetos a menos de 30cm
-- **Alertas visuais:**
-  - LED verde: Área livre
-  - LED vermelho piscante: Obstáculo detectado
-- **Alerta sonoro:** Buzzer emite tom de 440Hz quando detecta obstáculo
-- **Movimento contínuo:** Varredura bidirecional ininterrupta
-- **Resposta em tempo real:** Parada e alerta imediato ao detectar obstáculo
+* **Varredura Automatizada:** O servo motor realiza um movimento de varredura (ex: 5° a 175°) de forma contínua e bidirecional.
+* **Detecção de Obstáculos:** O sensor ultrassônico mede a distância em cada ângulo. A detecção é acionada se a distância for **menor que um limite definido** (ex: 30 cm).
+* **Alerta Sonoro:** O **Buzzer** emite um tom (`tone()`) de alarme audível (ex: 440Hz) ao detectar um objeto.
+* **Alertas Visuais:**
+    * **LED Verde:** Indica **Área Livre** ou estado normal de varredura.
+    * **LED Vermelho:** Indica **Obstáculo Detectado** e pode ser programado para piscar.
+* **Resposta em Tempo Real:** O sistema deve **parar a varredura** e fixar a posição no ângulo do obstáculo enquanto ele estiver presente, emitindo os alertas.
 
-**Componentes utilizados:**
+#### Componentes Utilizados:
 
-- 1 servo motor (180°)
-- 1 sensor ultrassônico HC-SR04
-- 2 LEDs (verde e vermelho)
-- 1 buzzer para alarme
-- Comunicação serial para monitoramento
+| Componente | Quantidade | Função |
+| :--- | :--- | :--- |
+| **Servo Motor (180°)** | 1 | Realiza a varredura angular. |
+| **Sensor Ultrassônico HC-SR04** | 1 | Mede a distância do obstáculo. |
+| **LEDs Comuns (Verde e Vermelho)** | 2 | Alerta visual de status (Livre/Ameaça). |
+| **Buzzer** | 1 | Alerta sonoro de ameaça. |
+| **Resistores** | 2 | Proteção para os LEDs. |
+| **Arduino Uno** | 1 | Microcontrolador central. |
 
-**Algoritmo de funcionamento:**
+#### Algoritmo de Funcionamento:
 
-1. Servo inicia varredura de 5° a 175°
-2. A cada posição, sensor ultrassônico mede distância
-3. Se distância < 30cm:
-   - Para a varredura na posição atual
-   - Ativa LED vermelho piscante
-   - Emite som de alerta
-   - Continua verificando até obstáculo sair
-4. Se área livre: LED verde aceso, sem som
-5. Retorna varredura de 175° a 5° (movimento reverso)
+1.  O servo motor inicia a varredura do ângulo inicial ao final (ex: $5^\circ$ a $175^\circ$).
+2.  Em cada ângulo, o sensor ultrassônico realiza a medição de distância.
+3.  **SE** a distância for **menor que 30 cm** (ou limite definido):
+    * A varredura é interrompida (o servo se mantém na posição).
+    * O LED Vermelho é ativado (piscante).
+    * O Buzzer é ativado.
+    * O sistema continua verificando até que o obstáculo se afaste.
+4.  **SE** a área estiver livre:
+    * A varredura continua.
+    * O LED Verde é ativado, e o LED Vermelho e o Buzzer são desativados.
+5.  Ao atingir o ângulo máximo, a varredura inverte o movimento (ex: $175^\circ$ a $5^\circ$).
 
 ---
 
@@ -53,29 +59,21 @@ Esta aula introduz o controle de servo motores e sua integração com sensores u
 
 ### Controle de Servo Motores:
 
-- Biblioteca `Servo.h` para controle de servo motores
-- Método `attach()` para definir pino de controle
-- Método `write()` para posicionamento angular
-- Controle de velocidade através de delays entre posições
-- Movimento bidirecional com loops `for`
+* **Biblioteca `Servo.h`:** Biblioteca padrão do Arduino para controle facilitado do servo motor.
+* **Métodos Essenciais:**
+    * `attach(pin)`: Associa o objeto servo a um pino digital específico.
+    * `write(angle)`: Posiciona o servo em um ângulo entre $0^\circ$ e $180^\circ$.
+* **Controle de Velocidade:** Ajuste da velocidade de varredura através de loops e pequenos `delay()` entre as chamadas de `write()`.
+* **Fiação:** Entender os pinos de Sinal (amarelo/laranja), Potência (vermelho) e GND (marrom/preto).
 
-### Integração Servo + Sensor:
+### Integração Servo + Sensor Ultrassônico:
 
-- Sincronização entre movimento do servo e leituras do sensor
-- Varredura sistemática de área
-- Detecção de obstáculos em movimento
-- Resposta adaptativa baseada em detecções
+* **Varredura Sistemática:** Sincronização da leitura do sensor a cada passo angular do servo para cobrir uma área definida.
+* **Medição de Distância:** Uso do HC-SR04 para calcular a distância em centímetros através do tempo de voo do pulso sonoro.
+* **Resposta Adaptativa:** Criação de uma lógica de controle (`if/else`) que altera o comportamento do sistema (varrer vs. parar/alertar) com base nos dados do sensor.
 
-### Sistemas de Alerta:
+### Sistemas de Alerta (HMI - Interface Humano-Máquina):
 
-- Alertas visuais com LEDs indicativos
-- Alertas sonoros com `tone()` e frequências específicas
-- Estados de sistema (normal vs. alerta)
-- Feedback imediato ao usuário
-
-### Aplicações Práticas:
-
-- Sistemas de segurança básicos
-- Monitoramento de área
-- Detecção automática de presença
-- Bases para robótica móvel e sistemas autônomos
+* **Sinalização Visual (LEDs):** Uso de LEDs para indicar o estado do sistema (normal/alerta) de forma intuitiva.
+* **Sinalização Sonora (Buzzer):** Uso da função `tone()` para gerar frequências sonoras específicas (alarmes) e `noTone()` para silenciar.
+* **Máquina de Estados:** Implementação de uma lógica simples de estados (VARRENDO $\leftrightarrow$ ALERTA) para gerenciar o comportamento dos atuadores (LEDs, Buzzer, Servo).
