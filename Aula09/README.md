@@ -1,49 +1,64 @@
-# Aula 09 - Robótica Móvel e Navegação Autônoma
+# Projeto Final: Robótica Móvel e Manipulação Autônoma
 
 ## Descrição da Prática
 
-Esta aula representa o ápice do curso, integrando todos os conhecimentos adquiridos para criar um sistema robótico móvel capaz de navegação autônoma com desvio inteligente de obstáculos.
+Esta aula final integra e testa os conhecimentos adquiridos no curso, focando em dois pilares da robótica: **Navegação Autônoma** (Carrinho Desvia Obstáculos) e **Manipulação** (Braço Robótico Programável).
 
-### Práticas Desenvolvidas
+---
 
-#### Carro Desvia Obstáculos (Carro_desvia_obstaculos.ino)
+## Práticas Desenvolvidas
 
-**Propósito:** Implementar um robô móvel autônomo que navega evitando obstáculos usando sensor ultrassônico e controle de motores.
+### Projeto 1: Carrinho que Desvia de Obstáculos (Carro_desvia_obstaculos.ino)
 
-**Funcionalidades:**
+**Propósito:** Implementar um robô móvel autônomo capaz de navegar, detectar obstáculos e tomar decisões inteligentes para desviar e continuar o movimento.
 
-- **Navegação autônoma:** Movimento automático para frente
-- **Detecção de obstáculos:** Sensor ultrassônico identifica barreiras
-- **Algoritmo de desvio inteligente:**
-  - Para ao detectar obstáculo (< 20cm)
-  - Move para trás por segurança
-  - Testa virada à direita
-  - Se ainda há obstáculo, testa virada à esquerda
-  - Escolhe o caminho livre e continua
-- **Controle de motores:** Sistema de tração diferencial com 2 motores
-- **Movimentos implementados:**
-  - Frente, ré, parar
-  - Virar direita, virar esquerda
-  - Controle independente de cada motor
+#### Funcionalidades:
 
-**Componentes utilizados:**
+* **Navegação Autônoma:** Movimento contínuo para frente.
+* **Detecção de Obstáculos:** Sensor ultrassônico **HC-SR04** identifica barreiras.
+* **Controle de Motores:** Utilização do **Módulo Ponte H** (Driver L298N ou similar) para controlar a direção e velocidade de dois motores DC (Tração Diferencial).
+* **Algoritmo de Desvio Inteligente:**
+    1.  Para ao detectar obstáculo (Distância $\le$ Limite de Segurança).
+    2.  Recua brevemente para criar espaço.
+    3.  Mede a distância da **Direita** (`option1`).
+    4.  Mede a distância da **Esquerda** (`option2`).
+    5.  Escolhe o caminho com a maior distância (maior liberdade) e executa a manobra de virada correspondente.
+    6.  Retorna ao movimento para frente.
 
-- 2 motores DC com driver de motor (ponte H)
-- 1 sensor ultrassônico HC-SR04
-- Sistema de alimentação para motores
-- Chassi robótico com rodas
+#### Componentes Principais:
 
-**Algoritmo de navegação:**
+| Componente | Função |
+| :--- | :--- |
+| **2 Motores DC** | Sistema de tração do robô. |
+| **Módulo Ponte H (Ex: L298N)** | Permite controlar a direção (inverter polaridade) dos motores DC. 
 
-1. **Estado normal:** Move para frente continuamente
-2. **Detecção:** Se distância < 20cm, para imediatamente
-3. **Manobra evasiva:**
-   - Recua por 1 segundo para criar espaço
-   - Vira à direita por 0.5 segundos
-   - Verifica se caminho está livre
-   - Se ainda há obstáculo, vira à esquerda por 1 segundo
-4. **Retomada:** Volta ao movimento para frente
-5. **Ciclo contínuo:** Repete processo indefinidamente
+[Image of L298N H-Bridge connection diagram]
+ |
+| **Sensor Ultrassônico HC-SR04** | Fornece dados de distância para a navegação. |
+| **Arduino Uno** | Microcontrolador central para lógica de controle. |
+| **Baterias** | Alimentação do módulo e dos motores. |
+
+---
+
+### Projeto 2: Braço Robótico Programável (Braco_robotico_programa.ino)
+
+**Propósito:** Desenvolver o controle de múltiplos servo motores para criar um braço robótico com movimentos programados de captura e reposicionamento.
+
+#### Funcionalidades:
+
+* **Controle de Múltiplos Servos:** Uso da biblioteca **`Servo.h`** para controlar todos os eixos (juntas) do braço robótico (base, ombro, cotovelo, garra).
+* **Programação de Movimentos:** Implementação de **pelo menos dois movimentos independentes** (Ex: `movimento_captura()`, `movimento_reposiciona()`).
+* **Interface de Controle:** O acionamento dos movimentos deve ser atrelado a uma condição, como o **pressionamento de botões** ou a **leitura de um sensor** (conforme aprimoramento sugerido).
+* **Sequência Coordenada:** Dentro de cada função de movimento, os servos devem ser acionados em uma sequência coordenada para executar tarefas complexas (Ex: Abrir garra $\rightarrow$ Mover para posição $\rightarrow$ Fechar garra $\rightarrow$ Levantar).
+
+#### Componentes Principais:
+
+| Componente | Função |
+| :--- | :--- |
+| **Servo Motores** | Atuadores em cada junta do braço. |
+| **Botões e Resistores** | Interface para acionar os movimentos programados. |
+| **Estrutura do Braço** | Chassi mecânico. |
+| **Arduino Uno** | Gerenciamento da biblioteca `Servo.h` e lógica. |
 
 ---
 
@@ -53,52 +68,12 @@ Esta aula representa o ápice do curso, integrando todos os conhecimentos adquir
 
 ---
 
-## Conceitos Aprendidos
+## Conceitos Integrados e Aprendidos
 
-### Robótica Móvel:
+### Robótica Móvel e Manipulação:
 
-- Controle de motores DC através de ponte H
-- Sistema de tração diferencial
-- Cinemática de robôs com rodas
-- Planejamento de trajetória básico
-
-### Navegação Autônoma:
-
-- Algoritmos de desvio de obstáculos
-- Sensoriamento para navegação
-- Tomada de decisão automatizada
-- Comportamentos emergentes em robótica
-
-### Integração de Sistemas:
-
-- Combinação de sensores e atuadores
-- Coordenação entre múltiplos subsistemas
-- Controle em tempo real
-- Arquitetura de controle robótico
-
-### Controle de Motores:
-
-- Ponte H para inversão de rotação
-- Controle digital de velocidade e direção
-- Sincronização de motores para movimento coordenado
-- Implementação de movimentos básicos de robôs móveis
-
-### Aplicações Avançadas:
-
-- Base para robôs aspiradores autônomos
-- Sistemas de navegação indoor
-- Robôs de exploração e mapeamento
-- Plataforma para inteligência artificial em robótica
-
----
-
-## Evolução do Aprendizado
-
-Esta aula integra conceitos de todas as aulas anteriores:
-
-- **Aula 03:** Controle de LEDs → Controle de motores
-- **Aula 04:** Interfaces com botões → Sensores autônomos
-- **Aula 05:** Sensores ultrassônicos → Navegação baseada em sensores
-- **Aula 06:** Displays → Feedback do sistema
-- **Aula 07:** Programação avançada → Algoritmos de controle
-- **Aula 08:** Servo motores → Sistemas de movimento
+* **Ponte H vs. Servo Motor:** Diferenciação e aplicação do controle de **Motores DC** (Ponte H) para tração e **Servo Motores** (Biblioteca `Servo.h`) para posicionamento angular.
+* **Navegação Inteligente:** Implementação de lógica de **tomada de decisão** baseada em dados de sensores (comparação de `option1` e `option2`).
+* **Funções de Movimento:** Modularização do código através de funções específicas para cada ação do robô (`frente()`, `virar_direita()`, `movimento_captura()`).
+* **Programação Estruturada:** Integração de conceitos de lógica (`if/else`), funções (`calculaDistancia()`), e bibliotecas (`Servo.h`) em um projeto funcional.
+* **Integração de Hardware:** Conexão e sincronização de múltiplos componentes (motores, ponte H, sensor, botões) para formar um sistema complexo.
