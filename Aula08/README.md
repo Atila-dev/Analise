@@ -49,12 +49,6 @@ Esta aula tem como foco o controle de motores, especificamente o **Servo Motor**
 
 ---
 
-## 🔗 Link do Tinkercad
-
-**Acesse a simulação desta aula:** [Inserir link do Tinkercad aqui]
-
----
-
 ## Conceitos Aprendidos
 
 ### Controle de Servo Motores:
